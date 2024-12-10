@@ -5,7 +5,6 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 export const renderGallery = (images) => {
   const galleryContainer = document.querySelector('.gallery');
-  galleryContainer.innerHTML = '';
 
   if (!Array.isArray(images) || images.length === 0) {
     iziToast.error({
@@ -55,4 +54,24 @@ export const hideLoadingIndicator = () => {
   } else {
     console.error('Loading indicator not found.');
   }
+};
+
+export const showLoadMoreButton = () => {
+  const loadMoreButton = document.querySelector('#load-more-btn');
+  loadMoreButton.style.display = 'block';
+};
+
+export const hideLoadMoreButton = () => {
+  const loadMoreButton = document.querySelector('#load-more-btn');
+  loadMoreButton.style.display = 'none';
+};
+
+export const showEndMessage = () => {
+  const loadMoreButton = document.querySelector('#load-more-btn');
+  loadMoreButton.style.display = 'none';
+  iziToast.info({
+    title: "End of results",
+    message: "We're sorry, but you've reached the end of search results.",
+    position: "topCenter"
+  });
 };
