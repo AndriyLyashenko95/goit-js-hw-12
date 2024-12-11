@@ -38,7 +38,7 @@ searchForm.addEventListener('submit', async (event) => {
 
   showLoadingIndicator();
   const galleryContainer = document.querySelector('.gallery');
-  galleryContainer.innerHTML = ''; 
+  galleryContainer.innerHTML = '';
 
   try {
     const data = await fetchImages(query);
@@ -46,6 +46,9 @@ searchForm.addEventListener('submit', async (event) => {
     const totalHits = data.totalHits;
 
     if (images.length === 0) {
+
+      galleryContainer.innerHTML = '';
+      hideLoadMoreButton();
       showError('There are no images matching your search query. Please try again!');
     } else {
       renderGallery(images); 
@@ -68,6 +71,8 @@ searchForm.addEventListener('submit', async (event) => {
 loadMoreButton.addEventListener('click', async () => {
   const currentPage = getCurrentPage();
 
+  hideLoadMoreButton();
+  showLoadingIndicator();
 
   if (currentPage >= 15) {
     showEndMessage();
@@ -87,10 +92,16 @@ loadMoreButton.addEventListener('click', async () => {
       renderGallery(images);
       if (getCurrentPage() * 15 >= totalHits) {
         showEndMessage();
+      } else {
+        showLoadMoreButton();
       }
     }
+
     scrollToNextImages(); 
+
   } catch (error) {
     showError('An error occurred while fetching images.');
+  } finally {
+    hideLoadingIndicator();
   }
 });
